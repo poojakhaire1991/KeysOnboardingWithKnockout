@@ -1,0 +1,116 @@
+﻿@model IEnumerable<KeysOnboardingWithKnockout.Models.Customer>
+
+@{
+    ViewBag.Title = "Index";
+}
+<head>
+    <script type="text/javascript" src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/knockout-3.4.2.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/knockout.validation.js"></script>
+    <script src="~/Scripts/knockout.validation.min.js"></script>
+</head>
+
+@*<script src="~/Scripts/jquery.validate.min.js"></script>*@
+
+<p>
+    <button type="button" id="btnCreate" class="btn btn-success" data-toggle="modal" data-target="#CreateModal" data-bind="$root.add">Add Customer</button>
+</p>
+
+<table class="table" id="customers" data-bind="visible: Customers().length > 0">
+    <thead>
+        <tr>
+            <th style="display: none;">ID</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Age</th>
+            <th>ContactNo</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: Customers">
+        <tr>
+            <td data-bind="visible:false , text: Id "></td>
+            <td data-bind="text: Name"></td>
+            <td data-bind="text: Address"></td>
+            <td data-bind="text: Age"></td>
+            <td data-bind="text: ContactNo"></td>
+            <td>
+
+                <button type="button" data-bind="click: $root.Edit" id="btnEdit" class="btn btn-warning" data-toggle="modal" data-target="#CreateModal">Edit</button>
+                <button type="button" id="btnDelete" data-bind="click:$root.Delete" class="btn btn-danger">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+
+</table>
+
+@*Create Modal*@
+<div class="modal fade" id="CreateModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"></button>
+                <h4 class="modal-title"><label id="title"></label></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="frm">
+                    <div data-bind="if: Customer">
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" data-bind="value: Customer().Id, visible: false" />
+                            <label>Name</label>
+                            <input type="text" class="form-control" data-bind="value: Customer().Name,valueUpdate:'keypress'" />
+                        </div>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <input type="text" class="form-control" data-bind="value: Customer().Address,valueUpdate:'keypress'" />
+                        </div>
+                        <div class="form-group">
+                            <label>Age</label>
+                            <input type="text" class="form-control" data-bind="value: Customer().Age,valueUpdate:'keypress'" />
+                        </div>
+                        <div class="form-group">
+                            <label>ContactNo</label>
+                            <input type="text" class="form-control" data-bind="value: Customer().ContactNo,valueUpdate:'keypress',enable:$root.ContactNo.isValid" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" id="btnUpdate" data-bind="click:$root.update" class="btn btn-primary">Update</button>
+                            <button type="submit" class="btn btn-danger" data-dismiss="modal" onclick="closePage()">Cancel</button>
+                        </div>
+                    </div>
+
+                    <div data-bind="ifnot: Customer()">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" id="name" name="name" class="form-control" data-bind="value: $root.Name,valueUpdate:'keypress'" />
+                        </div>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <input type="text" id="address" name="address" class="form-control" data-bind="value: $root.Address,valueUpdate:'keypress'" />
+                        </div>
+                        <div class="form-group">
+                            <label>Age</label>
+                            <input type="text" id="age" name="age" class="form-control" data-bind="value: $root.Age,valueUpdate:'keypress'" />
+                        </div>
+                        <div class="form-group">
+                            <label>ContactNo</label>
+                            <input type="text" id="contact" name="contact" class="form-control" data-bind="value: $root.ContactNo,valueUpdate:'keypress'" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="btnSave" data-bind="click:$root.save,enable: Name.isValid,enable: Address.isValid,enable: Age.isValid,enable: ContactNo.isValid" class="btn btn-primary">Save</button>
+                            <button type="submit" class="btn btn-danger" data-dismiss="modal" onclick="closePage1()">Cancel</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/MyScripts/Customer.js"></script>
+    }

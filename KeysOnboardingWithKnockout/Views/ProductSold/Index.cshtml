@@ -1,0 +1,116 @@
+﻿
+@{
+    ViewBag.Title = "Product Sold";
+}
+<head>
+    <script type="text/javascript" src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/knockout-3.4.2.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+</head>
+
+<h2>Product Sold</h2>
+<button class="btn btn-success" data-target="#myModal" data-toggle="modal" data-bind="click:$root.showSaveModal">Add</button>
+<hr />
+
+<table class="table table-striped table-hover table-bordered">
+    <thead>
+        <tr>
+            <th>Customer</th>
+            <th>Product</th>
+            <th>Store</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: Sales">
+        <tr>
+            <td data-bind="text: Customer"></td>
+            <td data-bind="text: Product"></td>
+            <td data-bind="text: Store"></td>
+            <td>
+                <button class="btn btn-warning" data-bind="click:$root.showEditModal">
+                    Edit
+                </button>
+                <button class="btn btn-danger" data-bind="click:$root.Delete">
+                    Delete
+                </button>
+            </td>
+        </tr>
+
+    </tbody>
+</table>
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog" data-bind="with : SelectedSale">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <form>
+                        <div class="modal-body">
+                        <div class="form-group">
+                            <label>Select Customer</label>
+                            <select class="form-control" data-bind="options : $parent.Customers, optionsText : 'Name', value : $parent.SelectedCustomer"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Select Product</label>
+                            <select class="form-control" data-bind="options : $parent.Products, optionsText : 'Name', value : $parent.SelectedProduct"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Select Store</label>
+                            <select class="form-control" data-bind="options : $parent.Stores, optionsText : 'Name', value : $parent.SelectedStore"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Date</label>
+                            @Html.TextBox("DateSold", DateTime.Today, new { @disabled = "disabled", @id = "datesold" })
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="btnSave" type="button" class="btn btn-primary" data-dismiss="modal" data-bind="click : $root.Save">Save</button>
+                        <button type="button" data-bind="click: $root.closePage1" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+             </form>
+        </div>
+    </div>
+</div>
+
+<div id="editModal" class="modal fade" role="dialog">
+    <div class="modal-dialog" data-bind="with : SelectedSale">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <form>
+                <div class="modal-body">
+                        <div class="form-group">
+                            <label>Select Customer</label>
+                            <select class="form-control" data-bind="options : $parent.Customers, optionsText : 'Name', value : $parent.SelectedCustomer"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Select Product</label>
+                            <select class="form-control" data-bind="options : $parent.Products, optionsText : 'Name', value : $parent.SelectedProduct"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Select Store</label>
+                            <select class="form-control" data-bind="options : $parent.Stores, optionsText : 'Name', value : $parent.SelectedStore"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Date</label>
+                            @Html.TextBox("DateSold", DateTime.Today, new { @disabled = "disabled", @id = "datesold" })
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="btnUpdate" type="button" class="btn btn-primary" data-dismiss="modal" data-bind="click : $root.Update">Update</button>
+                        <button type="button" data-bind="click: $root.closePage" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/MyScripts/ProductSold.js"></script>
+}
